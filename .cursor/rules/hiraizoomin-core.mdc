@@ -1,0 +1,17 @@
+---
+description: Core MVP rules for the beginner-friendly HiraiZOOMin Flask app.
+alwaysApply: true
+---
+
+# HiraiZOOMin core rules
+
+- Follow the requirements and designs in `docs/`. Keep changes small, focused, and beginner-friendly.
+- Use only Python, Flask, PeeWee, and SQLite unless the project owner approves another package or technique. Explain unfamiliar syntax or concepts before using them.
+- Keep the flat structure: `app.py`, `models.py`, `seed.py`, `templates/`, and `static/`. Do not add Blueprints, an application factory, or a CSS framework.
+- Use one `Place` model. Categories must be lowercase `sightseeing`, `food`, or `shopping`.
+- Keep the agreed GET routes: `/`, `/places/<category>`, and `/places/<int:place_id>`. Validate categories and the optional `from` value. Use `not_found.html` with HTTP 404 for invalid categories or missing places.
+- Keep optional Japanese names, addresses, and opening hours nullable; show them only when present. Reuse the category and details templates.
+- Seed only when the `Place` table is empty. Never create duplicate records.
+- Store simple styles in `static/css/style.css` and placeholder assets in `static/images/`. Do not implement uploads.
+- Google Maps links are stored, owner-verified external `https` links that open in a new tab. Do not use a Google Maps API or invent/claim verification of local place data.
+- Do not add login, registration, AI, external APIs, embedded maps, GPS navigation, or other out-of-scope features without asking. Do not put secrets or private data in source code.
