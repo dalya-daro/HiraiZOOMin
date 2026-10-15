@@ -35,6 +35,12 @@
             <h3>{{ place.name_en }}</h3>
 
             <p>{{ place.description }}</p>
+
+            {% if source_category %}
+            <a href="{{ url_for('place_detail', place_id=place.id, from=source_category) }}">View Details</a>
+            {% else %}
+            <a href="{{ url_for('place_detail', place_id=place.id) }}">View Details</a>
+            {% endif %}
         </article>
         {% endfor %}
         {% else %}
