@@ -9,15 +9,23 @@
 </head>
 
 <body>
-    <header>
-        <h1>HiraiZOOMin</h1>
+    <header class="site-header">
+        <div class="site-header__inner">
+            <a class="brand" href="{{ url_for('home') }}" aria-label="HiraiZOOMin home">Hirai<span>ZOOM</span>in</a>
+            <nav class="main-nav" aria-label="Primary navigation">
+                <a class="nav-link" href="{{ url_for('home') }}">All Places</a>
+                <a class="nav-link" href="{{ url_for('places_by_category', category='sightseeing') }}">Sightseeing</a>
+                <a class="nav-link" href="{{ url_for('places_by_category', category='food') }}">Food</a>
+                <a class="nav-link" href="{{ url_for('places_by_category', category='shopping') }}">Shopping</a>
+            </nav>
+        </div>
     </header>
 
-    <main>
+    <main class="site-main">
         <section class="empty-state">
             <h2>Page not found</h2>
             <p>The place or category you requested is not available.</p>
-            <p><a href="{{ url_for('home') }}">Back to All Places</a></p>
+            <p><a class="button button--secondary" href="{{ url_for('home') }}">Back to All Places</a></p>
         </section>
     </main>
 </body>

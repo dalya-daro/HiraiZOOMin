@@ -9,36 +9,54 @@
 </head>
 
 <body>
-    <header>
-        <p><a class="back-link" href="{{ back_url }}">← Back to Places</a></p>
-        <h1>HiraiZOOMin</h1>
+    <header class="site-header">
+        <div class="site-header__inner">
+            <a class="brand" href="{{ url_for('home') }}" aria-label="HiraiZOOMin home">Hirai<span>ZOOM</span>in</a>
+            <nav class="main-nav" aria-label="Primary navigation">
+                <a class="nav-link" href="{{ url_for('home') }}">All Places</a>
+                <a class="nav-link {% if place.category == 'sightseeing' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='sightseeing') }}" {% if place.category == 'sightseeing' %}aria-current="page"{% endif %}>Sightseeing</a>
+                <a class="nav-link {% if place.category == 'food' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='food') }}" {% if place.category == 'food' %}aria-current="page"{% endif %}>Food</a>
+                <a class="nav-link {% if place.category == 'shopping' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='shopping') }}" {% if place.category == 'shopping' %}aria-current="page"{% endif %}>Shopping</a>
+            </nav>
+        </div>
     </header>
 
-    <main>
+    <main class="site-main detail-main">
+        <p><a class="button button--secondary" href="{{ back_url }}"><span aria-hidden="true">←</span> Back to Places</a></p>
         <article class="place-detail">
-            <img src="{{ url_for('static', filename='images/' + place.placeholder_key + '.jpg') }}" alt="{{ place.name_en }}" width="300">
+            <img class="place-detail__image" src="{{ url_for('static', filename='images/' + place.placeholder_key + '.jpg') }}" alt="{{ place.name_en }}" width="300">
 
-            <p>{{ category_icon }} {{ category_label }}</p>
+            <span class="category-badge">{{ category_icon }} {{ category_label }}</span>
             <h2>{{ place.name_en }}</h2>
-            <p>{{ place.description }}</p>
+            <p class="place-detail__description">{{ place.description }}</p>
 
-            <h3>Address</h3>
-            {% if place.address %}
-            <p>{{ place.address }}</p>
-            {% else %}
-            <p>Information not available yet.</p>
-            {% endif %}
+            <div class="info-list">
+                <section class="info-row">
+                    <span class="info-row__icon" aria-hidden="true">⌖</span>
+                    <div>
+                        <h3>Address</h3>
+                        {% if place.address %}
+                        <p>{{ place.address }}</p>
+                        {% else %}
+                        <p>Information not available yet.</p>
+                        {% endif %}
+                    </div>
+                </section>
 
-            <h3>Opening Hours</h3>
-            {% if place.opening_hours %}
-            <p>{{ place.opening_hours }}</p>
-            {% else %}
-            <p>Information not available yet.</p>
-            {% endif %}
+                <section class="info-row">
+                    <span class="info-row__icon" aria-hidden="true">◷</span>
+                    <div>
+                        <h3>Opening Hours</h3>
+                        {% if place.opening_hours %}
+                        <p>{{ place.opening_hours }}</p>
+                        {% else %}
+                        <p>Information not available yet.</p>
+                        {% endif %}
+                    </div>
+                </section>
+            </div>
 
-            <p>
-                <a class="map-link" href="{{ place.google_maps_url }}" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
-            </p>
+            <a class="button button--primary map-link" href="{{ place.google_maps_url }}" target="_blank" rel="noopener noreferrer">Open in Google Maps <span aria-hidden="true">↗</span></a>
         </article>
     </main>
 </body>
