@@ -11,10 +11,16 @@
     <header>
         <h1>HiraiZOOMin</h1>
         <p>Discover sightseeing, food, and everyday shopping in Hiraizumi.</p>
+        <nav>
+            <a href="{{ url_for('home') }}">All Places</a>
+            <a href="{{ url_for('places_by_category', category='sightseeing') }}">Sightseeing</a>
+            <a href="{{ url_for('places_by_category', category='food') }}">Food</a>
+            <a href="{{ url_for('places_by_category', category='shopping') }}">Shopping</a>
+        </nav>
     </header>
 
     <main>
-        <h2>All Places</h2>
+        <h2>{{ page_heading }}</h2>
 
         {% if places %}
         {% for place in places %}
@@ -32,7 +38,7 @@
         </article>
         {% endfor %}
         {% else %}
-        <p>No places available yet. Please check back later.</p>
+        <p>{{ empty_message }}</p>
         {% endif %}
     </main>
 </body>

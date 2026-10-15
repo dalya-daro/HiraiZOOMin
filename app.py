@@ -26,6 +26,24 @@ def home():
         places=places,
         category_icons=CATEGORY_ICONS,
         category_labels=CATEGORY_LABELS,
+        page_heading="All Places",
+        empty_message="No places available yet. Please check back later.",
+    )
+
+
+@app.route("/places/<category>")
+def places_by_category(category):
+    if category not in CATEGORY_LABELS:
+        return "Category not found.", 404
+
+    places = list(Place.select().where(Place.category == category))
+    return render_template(
+        "home.html",
+        places=places,
+        category_icons=CATEGORY_ICONS,
+        category_labels=CATEGORY_LABELS,
+        page_heading=f"{CATEGORY_LABELS[category]} in Hiraizumi",
+        empty_message="No places available in this category yet.",
     )
 
 
