@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, abort, render_template, request, url_for
 from peewee import DoesNotExist
 
 from models import Place, database
@@ -19,6 +19,11 @@ CATEGORY_LABELS = {
 }
 
 
+@app.errorhandler(404)
+def not_found(error):
+    return render_template("not_found.html"), 404
+
+
 @app.route("/")
 def home():
     places = list(Place.select())
@@ -36,7 +41,7 @@ def home():
 @app.route("/places/<category>")
 def places_by_category(category):
     if category not in CATEGORY_LABELS:
-        return "Category not found.", 404
+        abort(404)
 
     places = list(Place.select().where(Place.category == category))
     return render_template(
@@ -55,7 +60,7 @@ def place_detail(place_id):
     try:
         place = Place.get_by_id(place_id)
     except DoesNotExist:
-        return "Place not found.", 404
+        abort(404)
 
     source_category = request.args.get("from")
     if source_category in CATEGORY_LABELS:
