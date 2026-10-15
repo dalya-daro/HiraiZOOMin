@@ -1,11 +1,40 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>HiraiZOOMin</title>
 </head>
+
 <body>
-    <h1>Welcome to HiraiZOOMin!</h1>
+    <header>
+        <h1>HiraiZOOMin</h1>
+        <p>Discover sightseeing, food, and everyday shopping in Hiraizumi.</p>
+    </header>
+
+    <main>
+        <h2>All Places</h2>
+
+        {% if places %}
+        {% for place in places %}
+        <article class="place-card">
+            <img src="{{ url_for('static', filename='images/' + place.placeholder_key + '.jpg') }}" alt="{{ place.name_en }}" width="300">
+
+            <p>
+                {{ category_icons[place.category] }}
+                {{ category_labels[place.category] }}
+            </p>
+
+            <h3>{{ place.name_en }}</h3>
+
+            <p>{{ place.description }}</p>
+        </article>
+        {% endfor %}
+        {% else %}
+        <p>No places available yet. Please check back later.</p>
+        {% endif %}
+    </main>
 </body>
+
 </html>

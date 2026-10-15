@@ -8,7 +8,69 @@ ALLOWED_CATEGORIES = ["sightseeing", "food", "shopping"]
 # Each dictionary needs these fields:
 # name_en, name_ja, category, description, placeholder_key, address,
 # google_maps_url, opening_hours
-SAMPLE_PLACES = []
+
+SAMPLE_PLACES = [
+    {
+        "name_en": "Sakura Heritage Temple",
+        "name_ja": None,
+        "category": "sightseeing",
+        "description": "A peaceful temple surrounded by green trees, offering visitors a glimpse of traditional Japanese architecture.",
+        "placeholder_key": "temple",
+        "address": None,
+        "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Sakura+Heritage+Temple",
+        "opening_hours": None,
+    },
+    {
+        "name_en": "Maple Garden",
+        "name_ja": None,
+        "category": "sightseeing",
+        "description": "A quiet garden with a small pond, seasonal flowers, and scenic walking paths.",
+        "placeholder_key": "garden",
+        "address": None,
+        "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Maple+Garden",
+        "opening_hours": None,
+    },
+    {
+        "name_en": "Little Noodle House",
+        "name_ja": None,
+        "category": "food",
+        "description": "A cozy restaurant serving warm noodle soup and simple Japanese comfort food.",
+        "placeholder_key": "noodles",
+        "address": None,
+        "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Little+Noodle+House",
+        "opening_hours": None,
+    },
+    {
+        "name_en": "Rice Ball Corner",
+        "name_ja": None,
+        "category": "food",
+        "description": "A small takeaway shop offering rice balls with different fillings for travelers on the go.",
+        "placeholder_key": "onigiri",
+        "address": None,
+        "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Rice+Ball+Corner",
+        "opening_hours": None,
+    },
+    {
+        "name_en": "Little Craft Shop",
+        "name_ja": None,
+        "category": "shopping",
+        "description": "A small shop featuring handmade crafts, pottery, and gifts inspired by Japanese culture.",
+        "placeholder_key": "crafts",
+        "address": None,
+        "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Little+Craft+Shop",
+        "opening_hours": None,
+    },
+    {
+        "name_en": "Sweet Memories",
+        "name_ja": None,
+        "category": "shopping",
+        "description": "A souvenir shop selling packaged sweets and small gifts to take home.",
+        "placeholder_key": "sweets",
+        "address": None,
+        "google_maps_url": "https://www.google.com/maps/search/?api=1&query=Sweet+Memories",
+        "opening_hours": None,
+    },
+]
 
 
 def sample_data_is_valid():
