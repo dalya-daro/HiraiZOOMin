@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>HiraiZOOMin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
@@ -23,6 +24,7 @@
         <h2>{{ page_heading }}</h2>
 
         {% if places %}
+        <div class="place-grid">
         {% for place in places %}
         <article class="place-card">
             <img src="{{ url_for('static', filename='images/' + place.placeholder_key + '.jpg') }}" alt="{{ place.name_en }}" width="300">
@@ -43,8 +45,9 @@
             {% endif %}
         </article>
         {% endfor %}
+        </div>
         {% else %}
-        <p>{{ empty_message }}</p>
+        <p class="empty-state">{{ empty_message }}</p>
         {% endif %}
     </main>
 </body>

@@ -1,0 +1,150 @@
+:root {
+    --forest: #1f5f4a;
+    --forest-dark: #164536;
+    --cream: #fffaf0;
+    --ink: #263238;
+    --soft-green: #e7f2ec;
+    --border: #d8e2dc;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+body > header {
+    padding: 2rem 1rem;
+    background: var(--forest);
+    color: white;
+    text-align: center;
+}
+
+h1,
+h2,
+h3,
+p {
+    margin-top: 0;
+}
+
+h1 {
+    margin-bottom: 0.5rem;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+}
+
+nav a,
+.back-link,
+.map-link,
+.place-card a {
+    display: inline-block;
+    border-radius: 0.4rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+nav a {
+    padding: 0.55rem 0.9rem;
+    background: white;
+    color: var(--forest-dark);
+}
+
+nav a:hover,
+nav a:focus {
+    background: var(--soft-green);
+}
+
+main {
+    width: min(1100px, calc(100% - 2rem));
+    margin: 2rem auto;
+}
+
+.place-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+}
+
+.place-card,
+.place-detail,
+.empty-state {
+    padding: 1.25rem;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgb(38 50 56 / 10%);
+}
+
+.place-card {
+    overflow: hidden;
+}
+
+.place-card img,
+.place-detail img {
+    display: block;
+    width: 100%;
+    height: 190px;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+    object-fit: cover;
+}
+
+.place-card a,
+.map-link {
+    padding: 0.55rem 0.8rem;
+    background: var(--forest);
+    color: white;
+}
+
+.place-card a:hover,
+.place-card a:focus,
+.map-link:hover,
+.map-link:focus {
+    background: var(--forest-dark);
+}
+
+.place-detail {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.back-link {
+    color: white;
+}
+
+.empty-state {
+    color: var(--forest-dark);
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    body > header {
+        padding: 1.5rem 1rem;
+    }
+
+    nav a {
+        flex: 1 1 120px;
+    }
+
+    main {
+        width: min(100% - 1.25rem, 1100px);
+        margin: 1.25rem auto;
+    }
+
+    .place-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}

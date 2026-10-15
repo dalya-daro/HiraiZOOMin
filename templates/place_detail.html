@@ -5,16 +5,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ place.name_en }} | HiraiZOOMin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
     <header>
-        <p><a href="{{ back_url }}">← Back to Places</a></p>
+        <p><a class="back-link" href="{{ back_url }}">← Back to Places</a></p>
         <h1>HiraiZOOMin</h1>
     </header>
 
     <main>
-        <article>
+        <article class="place-detail">
             <img src="{{ url_for('static', filename='images/' + place.placeholder_key + '.jpg') }}" alt="{{ place.name_en }}" width="300">
 
             <p>{{ category_icon }} {{ category_label }}</p>
@@ -36,7 +37,7 @@
             {% endif %}
 
             <p>
-                <a href="{{ place.google_maps_url }}" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+                <a class="map-link" href="{{ place.google_maps_url }}" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
             </p>
         </article>
     </main>
