@@ -17,3 +17,14 @@ class Place(Model):
 
     class Meta:
         database = database
+
+
+def initialize_database():
+    database.connect()
+    database.create_tables([Place], safe=True)
+    database.close()
+
+
+if __name__ == "__main__":
+    initialize_database()
+    print("Database initialization complete.")
