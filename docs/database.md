@@ -8,7 +8,7 @@
 
 One `Place` table is sufficient for the MVP because every item shown by the app is a place and has the same type of information: name, category, description, map link, and optional practical details.
 
-A `user` table is not needed because there is no login or registration. A separate `category` table is not needed because the app has only three fixed categories: `sightseeing`, `food`, and `shopping`.
+A `user` table is not needed because there is no public-user login or registration. The separate admin area reads its credentials from environment variables and does not add a database table. A separate `category` table is not needed because the app has only three fixed categories: `sightseeing`, `food`, and `shopping`.
 
 ## 2. Role of Each Table
 

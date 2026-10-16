@@ -92,3 +92,10 @@ Complete tasks in order. Keep database checks separate from routes and templates
 - **Implement:** Test the requirements acceptance checklist end to end.
 - **Done when:** Browsing, filtering, details, back links, map links, missing optional data, and 404 handling all work with six records.
 - **Check:** Use the checklist in `docs/requirements.md` and record any issue before adding optional improvements.
+
+## 14. Manage places through the separate admin area
+
+- **Priority:** P1
+- **Implement:** Configure administrator credentials through environment variables, then use the protected `/admin` routes to add, edit, and delete the existing `Place` records.
+- **Done when:** Public browsing remains login-free; every admin management route requires an authenticated server-side session; every admin form uses CSRF protection; deletion requires a confirmation POST.
+- **Check:** Follow the manual checks in `docs/admin.md`, including unauthenticated redirects, invalid form data, and CSRF rejection.

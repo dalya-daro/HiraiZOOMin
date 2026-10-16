@@ -10,7 +10,7 @@ The MVP contains six real-world sample places: two each in `sightseeing`, `food`
 
 - Python, Flask, PeeWee, and SQLite
 - No external APIs or Google Maps API; Google Maps uses ordinary external search links
-- No login, registration, AI features, GPS navigation, embedded maps, or image uploads
+- No public-user login, registration, AI features, GPS navigation, embedded maps, or image uploads. A separate environment-configured administrator login is permitted for place management.
 
 Use this flat structure:
 

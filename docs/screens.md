@@ -4,7 +4,7 @@
 
 HiraiZOOMin has three screens for its MVP. It helps foreign visitors and newcomers discover sightseeing, food, and shopping places in Hiraizumi. The interface is primarily in English, with Japanese place names and addresses shown where useful.
 
-No screen requires login, registration, or an account. The app uses category-based placeholder images or icons in the first version.
+The public screens do not require login, registration, or an account. A separate admin area requires an administrator login and is documented in `docs/admin.md`. The app uses category-based placeholder images or icons in the first version.
 
 ## 1. Home / All Places
 

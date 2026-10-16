@@ -20,6 +20,8 @@ The MVP has three screens:
 | Category Results | Shows places for one selected category using the same list layout. |
 | Place Details | Shows information for one place and its Google Maps link. |
 
+The public screens do not require login. A separate protected admin area is available for the project owner to manage the same place data; its setup and tests are documented in `docs/admin.md`.
+
 ## 2. Target users
 
 **Primary users:** Foreign visitors and newcomers staying in or visiting Hiraizumi, especially people who find local information difficult to discover or understand in English.
@@ -97,11 +99,12 @@ The MVP is ready for review when:
 - [ ] Each detail page shows the stored information and a Google Maps search link.
 - [ ] Each Google Maps link opens in a new tab and has been checked for the intended place.
 - [ ] The layout is usable on both a phone-sized and desktop-sized browser window.
-- [ ] No login, external API, embedded map, or advanced feature is required.
+- [ ] Public browsing requires no login, external API, embedded map, or advanced feature.
+- [ ] The separate `/admin` area requires login and can add, edit, and delete places safely.
 
 ## 6. Things to be aware of during implementation
 
-- Do not add user accounts, login, registration, AI features, GPS navigation, embedded or live maps, or external APIs to the MVP.
+- Do not add public-user accounts, registration, AI features, GPS navigation, embedded or live maps, or external APIs to the MVP. The separate administrator login is the only permitted authentication feature.
 - Google Maps is used only through ordinary clickable search URLs; the Google Maps API is not needed.
 - Display addresses and opening hours only after they have been verified. Omit information that cannot be confirmed instead of guessing.
 - Use simple category-based placeholder images or icons initially, rather than collecting place photos.

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Login | HiraiZOOMin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <main class="admin-main">
+        <section class="admin-panel admin-panel--narrow">
+            <p class="eyebrow">HiraiZOOMin administration</p>
+            <h1>Admin login</h1>
+            <p class="admin-intro">Sign in to manage the places shown on the public website.</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+            <p class="flash-message flash-message--{{ category }}" role="alert">{{ message }}</p>
+            {% endfor %}
+            {% endwith %}
+
+            <form class="admin-form" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <label for="username">Username</label>
+                <input id="username" name="username" autocomplete="username" required>
+
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" autocomplete="current-password" required>
+
+                <button class="button button--primary" type="submit">Log in</button>
+            </form>
+        </section>
+    </main>
+</body>
+
+</html>

@@ -2,7 +2,7 @@
 
 ## Scope and simplicity
 
-- Build only the agreed MVP. Do not add login, registration, AI, external APIs, embedded maps, GPS navigation, uploads, Blueprints, an application factory, or a CSS framework.
+- Build only the agreed MVP plus the separate admin area. Do not add public-user registration, AI, external APIs, embedded maps, GPS navigation, uploads, Blueprints, an application factory, or a CSS framework.
 - Prefer concepts already learned. Explain an unfamiliar package or technique, why it is needed, and a simpler alternative before using it.
 - Keep the flat project structure: `app.py`, `models.py`, `seed.py`, `templates/`, and `static/`.
 
@@ -58,3 +58,5 @@
 - Validate allowed category values before querying or using them in a back link.
 - Keep the local SQLite database, virtual environment, caches, and local environment files out of Git as appropriate.
 - Do not expose debug information when the app is shared outside local development.
+- Keep the public site login-free. Admin credentials and Flask's secret key must come from environment variables, never source code.
+- Use Werkzeug password-hash verification, a server-side admin session check on every management route, CSRF tokens on every admin form, and POST for state-changing actions.

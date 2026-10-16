@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page_title }} | HiraiZOOMin Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <main class="admin-main">
+        <p><a class="button button--secondary" href="{{ url_for('admin_dashboard') }}">Back to dashboard</a></p>
+
+        <section class="admin-panel">
+            <p class="eyebrow">Protected area</p>
+            <h1>{{ page_title }}</h1>
+            <p class="admin-intro">Only enter owner-supplied, verified place information and Google Maps links.</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+            <p class="flash-message flash-message--{{ category }}" role="alert">{{ message }}</p>
+            {% endfor %}
+            {% endwith %}
+
+            <form class="admin-form" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                <label for="name_en">English name *</label>
+                <input id="name_en" name="name_en" value="{{ place.name_en or '' }}" maxlength="255" required>
+
+                <label for="name_ja">Japanese name (optional)</label>
+                <input id="name_ja" name="name_ja" value="{{ place.name_ja or '' }}" maxlength="255">
+
+                <label for="category">Category *</label>
+                <select id="category" name="category" required>
+                    <option value="">Choose a category</option>
+                    {% for category, label in category_labels.items() %}
+                    <option value="{{ category }}" {% if place.category==category %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="description">Description *</label>
+                <textarea id="description" name="description" rows="5" required>{{ place.description or '' }}</textarea>
+
+                <label>Place photos</label>
+                {% if photos %}
+                <p class="admin-form__hint">
+                    Current photos are shown below. Select photos to remove them.
+                    The first photo in the saved order becomes the main image.
+                </p>
+
+                <div id="existing-photo-grid" class="admin-photo-grid">
+                    {% for photo in photos %}
+                    <div class="admin-photo-item" data-photo-id="{{ photo.id }}">
+                        <img class="admin-image-preview" src="{{ url_for('static', filename='uploads/' + photo.filename) }}" alt="Photo {{ loop.index }} of {{ place.name_en }}">
+                        <label>
+                            <input type="checkbox" name="remove_photo" value="{{ photo.id }}">
+                            Remove this photo
+                        </label>
+                        <button type="button" class="button button--secondary move-photo-up">Move up</button>
+                        <button type="button" class="button button--secondary move-photo-down">Move down</button>
+                    </div>
+                    {% endfor %}
+                </div>
+                <input type="hidden" name="photo_order" id="photo_order" value="{{ photos | map(attribute='id') | join(',') }}">
+                {% else %}
+                <p class="admin-form__hint">
+                    No uploaded photos yet. Places without uploaded photos automatically use a placeholder image.
+                </p>
+                <div id="existing-photo-grid" class="admin-photo-grid"></div>
+                <input type="hidden" name="photo_order" id="photo_order" value="">
+                {% endif %}
+
+                <label for="photos">Upload photos</label>
+                <input id="photos" name="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+                <p class="admin-form__hint">Select multiple photos at once. Each photo must be 5 MB or smaller, with a maximum of 8 photos per place.</p>
+                <div id="selected-photo-previews" class="admin-photo-grid"></div>
+
+                <label for="address">Address (optional)</label>
+                <textarea id="address" name="address" rows="3">{{ place.address or '' }}</textarea>
+
+                <label for="google_maps_url">Verified Google Maps URL *</label>
+                <input id="google_maps_url" name="google_maps_url" type="url" value="{{ place.google_maps_url or '' }}" placeholder="https://..." required>
+
+                <label for="opening_hours">Opening hours (optional)</label>
+                <input id="opening_hours" name="opening_hours" value="{{ place.opening_hours or '' }}" maxlength="255">
+
+                <button class="button button--primary" type="submit">{{ submit_label }}</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        const photoInput = document.getElementById("photos");
+        const previewContainer = document.getElementById("selected-photo-previews");
+
+        photoInput.addEventListener("change", function () {
+            previewContainer.replaceChildren();
+
+            Array.from(photoInput.files).forEach(function (file) {
+                const item = document.createElement("div");
+                const image = document.createElement("img");
+                const caption = document.createElement("p");
+
+                item.className = "admin-photo-item";
+                image.className = "admin-image-preview";
+                image.alt = file.name;
+                image.src = URL.createObjectURL(file);
+                caption.textContent = file.name;
+
+                item.append(image, caption);
+                previewContainer.appendChild(item);
+            });
+        });
+
+        const existingGrid = document.getElementById("existing-photo-grid");
+        const photoOrderInput = document.getElementById("photo_order");
+
+        function updatePhotoOrder() {
+            photoOrderInput.value = Array.from(
+                existingGrid.querySelectorAll("[data-photo-id]")
+            ).map(item => item.dataset.photoId).join(",");
+        }
+
+        existingGrid.addEventListener("click", function (event) {
+            const item = event.target.closest("[data-photo-id]");
+            if (!item) return;
+
+            if (event.target.closest(".move-photo-up") && item.previousElementSibling) {
+                existingGrid.insertBefore(item, item.previousElementSibling);
+            } else if (
+                event.target.closest(".move-photo-down") &&
+                item.nextElementSibling
+            ) {
+                existingGrid.insertBefore(item.nextElementSibling, item);
+            }
+
+            updatePhotoOrder();
+        });
+
+        existingGrid.addEventListener("change", function (event) {
+            if (event.target.name === "remove_photo") {
+                updatePhotoOrder();
+            }
+        });
+
+        document.querySelector(".admin-form").addEventListener("submit", updatePhotoOrder);
+        updatePhotoOrder();
+
+    </script>
+</body>
+
+</html>

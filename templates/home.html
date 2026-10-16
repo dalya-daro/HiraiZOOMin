@@ -13,10 +13,10 @@
         <div class="site-header__inner">
             <a class="brand" href="{{ url_for('home') }}" aria-label="HiraiZOOMin home">Hirai<span>ZOOM</span>in</a>
             <nav class="main-nav" aria-label="Primary navigation">
-                <a class="nav-link {% if not source_category %}is-active{% endif %}" href="{{ url_for('home') }}" {% if not source_category %}aria-current="page"{% endif %}>All Places</a>
-                <a class="nav-link {% if source_category == 'sightseeing' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='sightseeing') }}" {% if source_category == 'sightseeing' %}aria-current="page"{% endif %}>Sightseeing</a>
-                <a class="nav-link {% if source_category == 'food' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='food') }}" {% if source_category == 'food' %}aria-current="page"{% endif %}>Food</a>
-                <a class="nav-link {% if source_category == 'shopping' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='shopping') }}" {% if source_category == 'shopping' %}aria-current="page"{% endif %}>Shopping</a>
+                <a class="nav-link {% if not source_category %}is-active{% endif %}" href="{{ url_for('home') }}" {% if not source_category %}aria-current="page" {% endif %}>All Places</a>
+                <a class="nav-link {% if source_category == 'sightseeing' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='sightseeing') }}" {% if source_category=='sightseeing' %}aria-current="page" {% endif %}>Sightseeing</a>
+                <a class="nav-link {% if source_category == 'food' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='food') }}" {% if source_category=='food' %}aria-current="page" {% endif %}>Food</a>
+                <a class="nav-link {% if source_category == 'shopping' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='shopping') }}" {% if source_category=='shopping' %}aria-current="page" {% endif %}>Shopping</a>
             </nav>
         </div>
     </header>
@@ -65,22 +65,28 @@
 
             {% if places %}
             <div class="place-grid">
-            {% for place in places %}
-            <article class="place-card">
-                <img class="place-card__image" src="{{ url_for('static', filename='images/' + place.placeholder_key + '.jpg') }}" alt="{{ place.name_en }}" width="300">
-                <div class="place-card__content">
-                    <span class="category-badge">{{ category_icons[place.category] }} {{ category_labels[place.category] }}</span>
-                    <h3>{{ place.name_en }}</h3>
-                    <p class="place-card__description">{{ place.description }}</p>
-
-                    {% if source_category %}
-                    <a class="button button--primary" href="{{ url_for('place_detail', place_id=place.id, from=source_category) }}">View details <span aria-hidden="true">→</span></a>
+                {% for place in places %}
+                <article class="place-card">
+                    {% if place.main_photo %}
+                    <img class="place-card__image" src="{{ url_for('static', filename='uploads/' + place.main_photo.filename) }}" alt="{{ place.name_en }}" width="300">
+                    {% elif place.image_filename %}
+                    <img class="place-card__image" src="{{ url_for('static', filename='uploads/' + place.image_filename) }}" alt="{{ place.name_en }}" width="300">
                     {% else %}
-                    <a class="button button--primary" href="{{ url_for('place_detail', place_id=place.id) }}">View details <span aria-hidden="true">→</span></a>
+                    <img class="place-card__image" src="{{ url_for('static', filename='images/' + place.placeholder_key + '.jpg') }}" alt="{{ place.name_en }}" width="300">
                     {% endif %}
-                </div>
-            </article>
-            {% endfor %}
+                    <div class="place-card__content">
+                        <span class="category-badge">{{ category_icons[place.category] }} {{ category_labels[place.category] }}</span>
+                        <h3>{{ place.name_en }}</h3>
+                        <p class="place-card__description">{{ place.description }}</p>
+
+                        {% if source_category %}
+                        <a class="button button--primary" href="{{ url_for('place_detail', place_id=place.id, from=source_category) }}">View details <span aria-hidden="true">→</span></a>
+                        {% else %}
+                        <a class="button button--primary" href="{{ url_for('place_detail', place_id=place.id) }}">View details <span aria-hidden="true">→</span></a>
+                        {% endif %}
+                    </div>
+                </article>
+                {% endfor %}
             </div>
             {% else %}
             <p class="empty-state">{{ empty_message }}</p>

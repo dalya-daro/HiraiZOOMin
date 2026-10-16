@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Delete Place | HiraiZOOMin Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <main class="admin-main">
+        <section class="admin-panel admin-panel--narrow">
+            <p class="eyebrow">Confirmation required</p>
+            <h1>Delete {{ place.name_en }}?</h1>
+            <p class="admin-intro">This will remove this place from the public website and the SQLite database. This cannot be undone here.</p>
+            <form class="admin-actions" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <a class="button button--secondary" href="{{ url_for('admin_dashboard') }}">Cancel</a>
+                <button class="button button--danger" type="submit">Yes, delete place</button>
+            </form>
+        </section>
+    </main>
+</body>
+
+</html>

@@ -2,7 +2,7 @@
 
 ## Overview
 
-HiraiZOOMin uses three simple Flask `GET` routes. `GET` is appropriate because each route only displays information; it does not create, edit, or delete data.
+HiraiZOOMin has public browsing routes and a separate protected admin area. Public routes use `GET` because they only display information. The admin area uses `POST` for every action that changes data or ends a session.
 
 The app uses one reusable template for category results and one reusable template for place details. It does not need a separate route or template for each category or place.
 
@@ -13,6 +13,12 @@ The app uses one reusable template for category results and one reusable templat
 | Home / All Places | `/` | `GET` | Displays the app introduction, category controls, and all six initial places. | `home.html` | None | Category buttons go to `/places/sightseeing`, `/places/food`, or `/places/shopping`. A place's details link goes to `/places/<place_id>`. |
 | Category Results | `/places/<category>` | `GET` | Validates the requested category, then displays places in that category using a reusable results layout. Supported values are `sightseeing`, `food`, and `shopping`. | `places.html` | **Route parameter:** `category`, the category word in the URL. | All Places and back links go to `/`. Category buttons go to another supported category URL. A place's details link goes to `/places/<place_id>?from=<category>`. |
 | Place Details | `/places/<int:place_id>` | `GET` | Finds and displays one place, including its description, verified practical information, and Google Maps link. | `place_detail.html` | **Route parameter:** `place_id`, the numeric database ID. **Optional query parameter:** `from`, the originating category, such as `food`. | Back link goes to `/places/<from>` when `from` is valid; otherwise it goes to `/`. Google Maps opens externally in a new tab. |
+| Admin Login | `/admin/login` | `GET`, `POST` | Shows the separate admin login form and verifies environment-configured credentials. | `admin_login.html` | None | Successful login goes to `/admin`. |
+| Admin Dashboard | `/admin` | `GET` | Lists all places and management links. | `admin_dashboard.html` | None | Requires server-side admin session. |
+| Add Place | `/admin/places/new` | `GET`, `POST` | Shows a form and adds a validated `Place`. | `admin_place_form.html` | None | Requires login and CSRF token. |
+| Edit Place | `/admin/places/<int:place_id>/edit` | `GET`, `POST` | Shows a form and saves a validated update. | `admin_place_form.html` | **Route parameter:** `place_id` | Requires login and CSRF token. |
+| Delete Place | `/admin/places/<int:place_id>/delete` | `GET`, `POST` | Shows confirmation, then deletes after the confirmation POST. | `admin_delete_place.html` | **Route parameter:** `place_id` | Requires login and CSRF token. |
+| Admin Logout | `/admin/logout` | `POST` | Ends the admin session. | Redirect | None | Requires login and CSRF token. |
 
 ## Category validation
 

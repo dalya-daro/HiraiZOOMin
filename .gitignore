@@ -8,6 +8,8 @@ __pycache__/
 # Local SQLite database
 hiraizoomin.db
 
+# Locally uploaded place images
+static/uploads/
+
 # Local environment variables and secrets
 .env
-
