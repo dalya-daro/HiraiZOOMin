@@ -6,6 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>HiraiZOOMin</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        /* New homepage poster */
+        .hero-poster {
+            display: block;
+            width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 24px;
+            line-height: 0;
+            background: #214b38;
+            box-shadow: 0 12px 30px rgba(30, 55, 40, 0.10);
+        }
+
+        .hero-poster img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .hero-poster:focus-visible {
+            outline: 3px solid #ed8954;
+            outline-offset: 4px;
+        }
+
+        @media (max-width: 600px) {
+            .hero-poster {
+                border-radius: 14px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -19,12 +51,15 @@
                 <a class="nav-link {% if not source_category %}is-active{% endif %}" href="{{ url_for('home') }}" {% if not source_category %}aria-current="page" {% endif %}>
                     All Places
                 </a>
+
                 <a class="nav-link {% if source_category == 'sightseeing' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='sightseeing') }}" {% if source_category=='sightseeing' %}aria-current="page" {% endif %}>
                     Sightseeing
                 </a>
+
                 <a class="nav-link {% if source_category == 'food' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='food') }}" {% if source_category=='food' %}aria-current="page" {% endif %}>
                     Food
                 </a>
+
                 <a class="nav-link {% if source_category == 'shopping' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='shopping') }}" {% if source_category=='shopping' %}aria-current="page" {% endif %}>
                     Shopping
                 </a>
@@ -35,25 +70,15 @@
     <main class="site-main">
 
         {% if not source_category %}
-        <!-- Homepage hero -->
-        <section class="hero">
-            <div class="hero__content">
-                <p class="eyebrow">Your local Hiraizumi guide</p>
-                <h1>Explore Hiraizumi Your Way</h1>
-                <p>
-                    Find peaceful places to visit, local food to try,
-                    and everyday essentials in one friendly guide.
-                </p>
-                <a class="button button--primary" href="#explore-places">
-                    Explore places
-                    <span aria-hidden="true">→</span>
-                </a>
-            </div>
 
-            <img class="hero__image" src="{{ url_for('static', filename='images/temple.jpg') }}" alt="Temple in Hiraizumi">
+        <!-- New homepage poster -->
+        <section class="hero-poster" aria-label="Explore Hiraizumi">
+            <a href="#explore-places" aria-label="Explore sightseeing, food, and shopping places in Hiraizumi">
+                <img src="{{ url_for('static', filename='images/hiraizoomin-hero.png') }}" alt="Explore Hiraizumi Your Way: discover sightseeing, local food, and shopping." fetchpriority="high">
+            </a>
         </section>
 
-        <!-- Illustrated category shortcuts -->
+        <!-- Category shortcuts -->
         <section class="category-shortcuts" aria-labelledby="category-shortcuts-title">
 
             <div class="section-heading">
@@ -197,7 +222,7 @@
                         </p>
 
                         {% if source_category %}
-                        <a class="button button--primary" href="{{ url_for('place_detail', place_id=place.id, from=source_category) }}">
+                        <a class="button button--primary" href="{{ url_for('place_detail', place_id=place.id, **{'from': source_category}) }}">
                             View details
                             <span aria-hidden="true">→</span>
                         </a>
