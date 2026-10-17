@@ -1215,3 +1215,182 @@ button {
         height: 32px;
     }
 }
+
+
+/* ========================================
+   HiraiZOOMin compact header and menu
+   ======================================== */
+
+.site-header__inner {
+    flex-direction: row;
+    justify-content: space-between;
+    min-height: 72px;
+    padding: 10px 0;
+}
+
+.main-nav {
+    display: none;
+}
+
+.menu-wrap {
+    position: relative;
+    margin-left: auto;
+}
+
+.menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--green-dark);
+    cursor: pointer;
+}
+
+.menu-toggle svg {
+    width: 22px;
+    height: 22px;
+}
+
+.menu-toggle:hover {
+    background: #E8F0E6;
+}
+
+.menu-toggle:focus-visible,
+.menu-panel a:focus-visible {
+    outline: 3px solid var(--orange);
+    outline-offset: 3px;
+}
+
+.menu-panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 20;
+    display: grid;
+    gap: 4px;
+    width: 190px;
+    padding: 8px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--white);
+    box-shadow: var(--shadow);
+}
+
+.menu-panel[hidden] {
+    display: none;
+}
+
+.menu-panel a {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 10px;
+    color: var(--green-dark);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.menu-panel a:hover {
+    background: #E8F0E6;
+}
+
+/* Compact category filters */
+
+.shortcut-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.shortcut-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 76px;
+    padding: 14px 18px;
+    border-radius: 16px;
+}
+
+.shortcut-card__icon {
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+}
+
+.shortcut-card__icon svg {
+    width: 25px;
+    height: 25px;
+}
+
+.shortcut-card__text {
+    display: block;
+    flex: 0 1 auto;
+}
+
+.shortcut-card__text strong {
+    font-size: 0.98rem;
+}
+
+.shortcut-card__text small,
+.shortcut-card__arrow {
+    display: none;
+}
+
+/* Category badge colors */
+
+.category-badge--sightseeing {
+    background: #E5EBDD;
+    color: #244735;
+}
+
+.category-badge--food {
+    background: #FBE7D9;
+    color: #A95630;
+}
+
+.category-badge--shopping {
+    background: #F7E8B8;
+    color: #795B18;
+}
+
+@media (max-width: 720px) {
+    .site-header__inner {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 0;
+    }
+
+    .shortcut-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .shortcut-card {
+        flex-direction: column;
+        gap: 6px;
+        min-height: 88px;
+        padding: 10px 4px;
+        text-align: center;
+    }
+
+    .shortcut-card__icon {
+        flex-basis: 34px;
+        width: 34px;
+        height: 34px;
+    }
+
+    .shortcut-card__icon svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .shortcut-card__text strong {
+        font-size: 0.82rem;
+    }
+}

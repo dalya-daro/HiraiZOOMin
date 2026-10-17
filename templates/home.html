@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <style>
-        /* New homepage poster */
         .hero-poster {
             display: block;
             width: 100%;
@@ -47,23 +46,18 @@
                 Hirai<span>ZOOM</span>in
             </a>
 
-            <nav class="main-nav" aria-label="Primary navigation">
-                <a class="nav-link {% if not source_category %}is-active{% endif %}" href="{{ url_for('home') }}" {% if not source_category %}aria-current="page" {% endif %}>
-                    All Places
-                </a>
+            <div class="menu-wrap">
+                <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="site-menu">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
 
-                <a class="nav-link {% if source_category == 'sightseeing' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='sightseeing') }}" {% if source_category=='sightseeing' %}aria-current="page" {% endif %}>
-                    Sightseeing
-                </a>
-
-                <a class="nav-link {% if source_category == 'food' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='food') }}" {% if source_category=='food' %}aria-current="page" {% endif %}>
-                    Food
-                </a>
-
-                <a class="nav-link {% if source_category == 'shopping' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='shopping') }}" {% if source_category=='shopping' %}aria-current="page" {% endif %}>
-                    Shopping
-                </a>
-            </nav>
+                <nav class="menu-panel" id="site-menu" aria-label="Site menu" hidden>
+                    <a href="{{ url_for('home') }}">Home</a>
+                    <a href="{{ url_for('admin_login') }}">Admin Login</a>
+                </nav>
+            </div>
         </div>
     </header>
 
@@ -71,16 +65,15 @@
 
         {% if not source_category %}
 
-        <!-- New homepage poster -->
+        <!-- Homepage poster -->
         <section class="hero-poster" aria-label="Explore Hiraizumi">
             <a href="#explore-places" aria-label="Explore sightseeing, food, and shopping places in Hiraizumi">
                 <img src="{{ url_for('static', filename='images/hiraizoomin-hero.png') }}" alt="Explore Hiraizumi Your Way: discover sightseeing, local food, and shopping." fetchpriority="high">
             </a>
         </section>
 
-        <!-- Category shortcuts -->
+        <!-- Compact category shortcuts -->
         <section class="category-shortcuts" aria-labelledby="category-shortcuts-title">
-
             <div class="section-heading">
                 <p class="eyebrow">Choose a path</p>
                 <h2 id="category-shortcuts-title">
@@ -92,7 +85,6 @@
 
                 <!-- Sightseeing -->
                 <a class="shortcut-card shortcut-card--sightseeing" href="{{ url_for('places_by_category', category='sightseeing') }}">
-
                     <span class="shortcut-card__icon" aria-hidden="true">
                         <svg viewBox="0 0 48 48" fill="none">
                             <path d="M8 39h32M12 39V19h24v20M17 19V11h14v8M21 11V6h6v5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -102,15 +94,11 @@
 
                     <span class="shortcut-card__text">
                         <strong>Sightseeing</strong>
-                        <small>Temples, gardens and local sights</small>
                     </span>
-
-                    <span class="shortcut-card__arrow" aria-hidden="true">↗</span>
                 </a>
 
                 <!-- Food -->
                 <a class="shortcut-card shortcut-card--food" href="{{ url_for('places_by_category', category='food') }}">
-
                     <span class="shortcut-card__icon" aria-hidden="true">
                         <svg viewBox="0 0 48 48" fill="none">
                             <circle cx="29" cy="25" r="12" stroke="currentColor" stroke-width="2.5" />
@@ -121,15 +109,11 @@
 
                     <span class="shortcut-card__text">
                         <strong>Food</strong>
-                        <small>Local flavors and places to eat</small>
                     </span>
-
-                    <span class="shortcut-card__arrow" aria-hidden="true">↗</span>
                 </a>
 
                 <!-- Shopping -->
                 <a class="shortcut-card shortcut-card--shopping" href="{{ url_for('places_by_category', category='shopping') }}">
-
                     <span class="shortcut-card__icon" aria-hidden="true">
                         <svg viewBox="0 0 48 48" fill="none">
                             <path d="M8 17h32l-3 24H11L8 17Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
@@ -140,10 +124,7 @@
 
                     <span class="shortcut-card__text">
                         <strong>Shopping</strong>
-                        <small>Local shops and everyday essentials</small>
                     </span>
-
-                    <span class="shortcut-card__arrow" aria-hidden="true">↗</span>
                 </a>
 
             </div>
@@ -164,7 +145,6 @@
 
         <!-- Place listing -->
         <section class="places-section" id="explore-places" aria-labelledby="places-title">
-
             <div class="section-heading section-heading--row">
                 <div>
                     <p class="eyebrow">
@@ -208,7 +188,7 @@
 
                     <div class="place-card__content">
 
-                        <span class="category-badge">
+                        <span class="category-badge category-badge--{{ place.category }}">
                             <span aria-hidden="true">
                                 {{ category_icons[place.category] }}
                             </span>
@@ -244,6 +224,40 @@
 
         </section>
     </main>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const siteMenu = document.getElementById("site-menu");
+
+        menuToggle.addEventListener("click", function () {
+            const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+
+            menuToggle.setAttribute("aria-expanded", String(!isOpen));
+            menuToggle.setAttribute(
+                "aria-label",
+                isOpen ? "Open navigation menu" : "Close navigation menu"
+            );
+
+            siteMenu.hidden = isOpen;
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!event.target.closest(".menu-wrap")) {
+                siteMenu.hidden = true;
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.setAttribute("aria-label", "Open navigation menu");
+            }
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                siteMenu.hidden = true;
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.setAttribute("aria-label", "Open navigation menu");
+                menuToggle.focus();
+            }
+        });
+    </script>
 </body>
 
 </html>

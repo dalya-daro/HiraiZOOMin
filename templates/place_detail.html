@@ -11,18 +11,33 @@
 <body>
     <header class="site-header">
         <div class="site-header__inner">
-            <a class="brand" href="{{ url_for('home') }}" aria-label="HiraiZOOMin home">Hirai<span>ZOOM</span>in</a>
-            <nav class="main-nav" aria-label="Primary navigation">
-                <a class="nav-link" href="{{ url_for('home') }}">All Places</a>
-                <a class="nav-link {% if place.category == 'sightseeing' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='sightseeing') }}" {% if place.category=='sightseeing' %}aria-current="page" {% endif %}>Sightseeing</a>
-                <a class="nav-link {% if place.category == 'food' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='food') }}" {% if place.category=='food' %}aria-current="page" {% endif %}>Food</a>
-                <a class="nav-link {% if place.category == 'shopping' %}is-active{% endif %}" href="{{ url_for('places_by_category', category='shopping') }}" {% if place.category=='shopping' %}aria-current="page" {% endif %}>Shopping</a>
-            </nav>
+            <a class="brand" href="{{ url_for('home') }}" aria-label="HiraiZOOMin home">
+                Hirai<span>ZOOM</span>in
+            </a>
+
+            <div class="menu-wrap">
+                <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="site-menu">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+
+                <nav class="menu-panel" id="site-menu" aria-label="Site menu" hidden>
+                    <a href="{{ url_for('home') }}">Home</a>
+                    <a href="{{ url_for('admin_login') }}">Admin Login</a>
+                </nav>
+            </div>
         </div>
     </header>
 
     <main class="site-main detail-main">
-        <p><a class="button button--secondary" href="{{ back_url }}"><span aria-hidden="true">←</span> Back to Places</a></p>
+        <p>
+            <a class="button button--secondary" href="{{ back_url }}">
+                <span aria-hidden="true">←</span>
+                Back to Places
+            </a>
+        </p>
+
         <article class="place-detail">
             {% if place.main_photo %}
             <img class="place-detail__image" src="{{ url_for('static', filename='uploads/' + place.main_photo.filename) }}" alt="{{ place.name_en }}">
@@ -35,6 +50,7 @@
             {% if photos|length > 1 %}
             <section class="place-gallery" aria-label="Place photo gallery">
                 <h3>More photos</h3>
+
                 <div class="place-gallery__grid">
                     {% for photo in photos %}
                     {% if not loop.first %}
@@ -47,13 +63,20 @@
             </section>
             {% endif %}
 
-            <span class="category-badge">{{ category_icon }} {{ category_label }}</span>
+            <span class="category-badge category-badge--{{ place.category }}">
+                {{ category_icon }} {{ category_label }}
+            </span>
+
             <h2>{{ place.name_en }}</h2>
-            <p class="place-detail__description">{{ place.description }}</p>
+
+            <p class="place-detail__description">
+                {{ place.description }}
+            </p>
 
             <div class="info-list">
                 <section class="info-row">
                     <span class="info-row__icon" aria-hidden="true">⌖</span>
+
                     <div>
                         <h3>Address</h3>
                         {% if place.address %}
@@ -66,6 +89,7 @@
 
                 <section class="info-row">
                     <span class="info-row__icon" aria-hidden="true">◷</span>
+
                     <div>
                         <h3>Opening Hours</h3>
                         {% if place.opening_hours %}
@@ -77,9 +101,45 @@
                 </section>
             </div>
 
-            <a class="button button--primary map-link" href="{{ place.google_maps_url }}" target="_blank" rel="noopener noreferrer">Open in Google Maps <span aria-hidden="true">↗</span></a>
+            <a class="button button--primary map-link" href="{{ place.google_maps_url }}" target="_blank" rel="noopener noreferrer">
+                Open in Google Maps
+            </a>
         </article>
     </main>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const siteMenu = document.getElementById("site-menu");
+
+        menuToggle.addEventListener("click", function () {
+            const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+
+            menuToggle.setAttribute("aria-expanded", String(!isOpen));
+            menuToggle.setAttribute(
+                "aria-label",
+                isOpen ? "Open navigation menu" : "Close navigation menu"
+            );
+
+            siteMenu.hidden = isOpen;
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!event.target.closest(".menu-wrap")) {
+                siteMenu.hidden = true;
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.setAttribute("aria-label", "Open navigation menu");
+            }
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                siteMenu.hidden = true;
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.setAttribute("aria-label", "Open navigation menu");
+                menuToggle.focus();
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -6,7 +6,7 @@ from functools import wraps
 from urllib.parse import urlparse
 
 from flask import Flask, abort, flash, redirect, render_template, request, session, url_for
-from peewee import DoesNotExist, PeeweeException
+from peewee import DoesNotExist, PeeweeException, fn
 from PIL import Image, UnidentifiedImageError
 from werkzeug.security import check_password_hash
 
@@ -282,7 +282,7 @@ def not_found(error):
 
 @app.route("/")
 def home():
-    places = attach_photos(Place.select())
+    places = attach_photos(Place.select().order_by(fn.Random()))
     return render_template(
         "home.html",
         places=places,
